@@ -8,6 +8,7 @@
   },
   "scripts": {
     "scan": "node scan.mjs",
+    "crawl": "node crawl.mjs",
     "build:extension": "cp bookmarklet.js extension/content.js && cd extension && zip -r ../mtd-extension.zip . && rm content.js"
   },
   "dependencies": {

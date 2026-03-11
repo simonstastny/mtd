@@ -48,7 +48,7 @@ async function scanPage(page, url, opts) {
   const patternFlags = (opts.pattern ?? DEFAULT_PATTERN).flags;
 
   const results = await page.evaluate(
-    ({ selector, patternSource, patternFlags, ignoredExtensions }) => {
+    ({ selector, patternSource, patternFlags, ignoredExtensions, ignoredDomains }) => {
       const re = new RegExp(patternSource, patternFlags);
       const IGNORED = new Set(ignoredExtensions);
       const container = document.querySelector(selector);
@@ -78,6 +78,7 @@ async function scanPage(page, url, opts) {
           const key = m[0];
           const last = key.split(".").pop().toLowerCase();
           if (IGNORED.has(last)) continue;
+          if (ignoredDomains.some((d) => key.toLowerCase().includes(d))) continue;
           const el = walker.currentNode.parentElement;
           const path = [];
           let cur = el;
@@ -109,6 +110,10 @@ async function scanPage(page, url, opts) {
         "html", "json", "xml", "svg", "png", "jpg", "jpeg", "gif", "webp",
         "woff", "woff2", "ttf", "eot", "pdf", "zip", "gz", "map", "md",
         "yml", "yaml", "toml", "env", "lock", "log", "txt", "csv",
+      ],
+      ignoredDomains: [
+        "ifortuna.cz", "ifortuna.sk", "efortuna.pl", "efortuna.ro",
+        "psk.hr", "casapariurilor.ro",
       ],
     }
   );

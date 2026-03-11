@@ -1,9 +1,11 @@
 # MTD — Missing Translation Detector
 
-Find untranslated keys (dot-notation like `home.welcome.title`) on deployed web pages. Comes with two tools:
+Find untranslated keys (dot-notation like `home.welcome.title`) on deployed web pages.
 
 1. **CLI Scanner** — headless browser scan that outputs a report
-2. **Browser Bookmarklet** — visual overlay that highlights missing translations in-page
+2. **Site Crawler** — crawls an entire site and collects missing translations across all pages
+3. **Browser Bookmarklet** — visual overlay that highlights missing translations in-page
+4. **Chrome Extension** - same as bookmarklet
 
 ## Setup
 
@@ -64,6 +66,65 @@ node scan.mjs https://your-app.com --wait 5000
 
   errors.generic.message
     └─ div.toast > p.message
+```
+
+## Site Crawler
+
+Crawls a website starting from a URL, follows same-domain links, and collects missing translations from every page it visits. Each page is visited only once.
+
+```bash
+# Crawl a site (stays on the same domain)
+node crawl.mjs https://your-app.com
+
+# Limit to 50 pages
+node crawl.mjs https://your-app.com --max 50
+
+# Faster with more parallelism
+node crawl.mjs https://your-app.com --concurrency 5
+
+# JSON output
+node crawl.mjs https://your-app.com --json
+
+# Scope scan to a section of each page
+node crawl.mjs https://your-app.com --selector "#main-content"
+```
+
+### Crawler Options
+
+| Option | Description | Default |
+|---|---|---|
+| `--pattern <regex>` | Custom regex for translation keys | Dot-notation keys |
+| `--selector <css>` | CSS selector to scope the scan | `body` |
+| `--wait <ms>` | Wait after page load (ms) | `2000` |
+| `--max <n>` | Maximum pages to visit | `100` |
+| `--concurrency <n>` | Parallel page loads | `3` |
+| `--json` | Output as JSON | `false` |
+| `--headed` | Show the browser window | `false` |
+
+### Example Output
+
+```
+Crawling https://your-app.com (max 100 pages, concurrency 3)
+
+  ✓ https://your-app.com — 5 occurrences, 3 unique keys
+  ✓ https://your-app.com/settings — 2 occurrences, 1 unique keys
+  ✓ https://your-app.com/about — 0 occurrences, 0 unique keys
+
+════════════════════════════════════════════════════════════
+  Crawl complete: https://your-app.com
+  Pages scanned: 3
+  Total unique keys: 4
+════════════════════════════════════════════════════════════
+
+  errors.generic.message
+    └─ https://your-app.com
+
+  home.welcome.title
+    └─ https://your-app.com
+
+  nav.menu.settings
+    └─ https://your-app.com
+    └─ https://your-app.com/settings
 ```
 
 ## Browser Bookmarklet
