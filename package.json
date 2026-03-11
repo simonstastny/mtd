@@ -1,0 +1,15 @@
+{
+  "name": "mtd",
+  "version": "1.0.0",
+  "description": "Missing Translation Detector — find untranslated keys in deployed web pages",
+  "type": "module",
+  "bin": {
+    "mtd": "./scan.mjs"
+  },
+  "scripts": {
+    "scan": "node scan.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.50.0"
+  }
+}
