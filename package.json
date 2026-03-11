@@ -7,7 +7,8 @@
     "mtd": "./scan.mjs"
   },
   "scripts": {
-    "scan": "node scan.mjs"
+    "scan": "node scan.mjs",
+    "build:extension": "cp bookmarklet.js extension/content.js && cd extension && zip -r ../mtd-extension.zip . && rm content.js"
   },
   "dependencies": {
     "playwright": "^1.50.0"

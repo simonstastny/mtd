@@ -18,6 +18,11 @@ const IGNORED_EXTENSIONS = new Set([
   "yml", "yaml", "toml", "env", "lock", "log", "txt", "csv",
 ]);
 
+const IGNORED_DOMAINS = [
+  "ifortuna.cz", "ifortuna.sk", "efortuna.pl", "efortuna.ro",
+  "psk.hr", "casapariurilor.ro",
+];
+
 function looksLikeUrl(match, fullText) {
   const idx = fullText.indexOf(match);
   if (idx > 0) {
@@ -34,6 +39,11 @@ function looksLikeFileOrDomain(key) {
   return IGNORED_EXTENSIONS.has(last);
 }
 
+function containsIgnoredDomain(key) {
+  const lower = key.toLowerCase();
+  return IGNORED_DOMAINS.some((d) => lower.includes(d));
+}
+
 /**
  * Detect missing translation keys in a text string.
  * @param {string} text - The text to scan.
@@ -48,6 +58,7 @@ export function detectKeys(text, pattern) {
     const candidate = m[0];
     if (looksLikeUrl(candidate, text)) continue;
     if (looksLikeFileOrDomain(candidate)) continue;
+    if (containsIgnoredDomain(candidate)) continue;
     keys.push(candidate);
   }
   return keys;

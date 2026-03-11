@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "MTD — Missing Translation Detector",
+  "version": "1.0.0",
+  "description": "Highlights untranslated dot-notation keys on web pages",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_title": "Detect missing translations"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}

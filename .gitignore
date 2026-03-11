@@ -1,2 +1,4 @@
 node_modules/
 package-lock.json
+mtd-extension.zip
+extension/content.js

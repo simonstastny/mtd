@@ -80,7 +80,7 @@ node scan.mjs https://your-app.com --wait 5000
 2. Set the URL to:
 
 ```
-javascript:void(fetch('https://raw.githubusercontent.com/YOUR_USER/mtd/main/bookmarklet.js').then(r=>r.text()).then(eval))
+javascript:void(fetch('https://raw.githubusercontent.com/simonstastny/mtd/main/bookmarklet.js').then(r=>r.text()).then(eval))
 ```
 
 Or minify `bookmarklet.js` and prefix with `javascript:`.
@@ -94,6 +94,27 @@ Or minify `bookmarklet.js` and prefix with `javascript:`.
 - **"Copy all keys"** button exports the full list
 - **Draggable panel** — move it by dragging the header
 - **Run again** to refresh results; **close** (✕) to clean up
+
+## Chrome Extension
+
+### Build
+
+```bash
+npm run build:extension
+```
+
+This produces `mtd-extension.zip` in the project root.
+
+### Install (unpacked)
+
+1. Run `npm run build:extension`
+2. Open `chrome://extensions` and enable **Developer mode**
+3. Click **Load unpacked** and select the `extension/` folder (make sure `content.js` exists — the build script creates it)
+4. Click the MTD icon on any page to scan for missing translations
+
+### Install (zip)
+
+1. Upload `mtd-extension.zip` to the Chrome Web Store, or distribute it directly
 
 ## How Detection Works
 

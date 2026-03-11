@@ -32,6 +32,11 @@
     "yml", "yaml", "toml", "env", "lock", "log", "txt", "csv",
   ]);
 
+  const IGNORED_DOMAINS = [
+    "ifortuna.cz", "ifortuna.sk", "efortuna.pl", "efortuna.ro",
+    "psk.hr", "casapariurilor.ro",
+  ];
+
   function isVisible(el) {
     if (!el) return false;
     const s = getComputedStyle(el);
@@ -64,6 +69,7 @@
       const key = m[0];
       const last = key.split(".").pop().toLowerCase();
       if (IGNORED_EXTENSIONS.has(last)) continue;
+      if (IGNORED_DOMAINS.some((d) => key.toLowerCase().includes(d))) continue;
       matches.push({ key, index: m.index, length: key.length });
     }
 
@@ -147,7 +153,7 @@
   });
 
   const title = document.createElement("span");
-  title.innerHTML = `<strong>MTD</strong> — ${findings.length} found, ${keySet.size} unique`;
+  title.innerHTML = `<strong>Missing Translations Detector</strong> — ${findings.length} found, ${keySet.size} unique`;
   header.appendChild(title);
 
   const closeBtn = document.createElement("button");
