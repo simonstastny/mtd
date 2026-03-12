@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Highlights untranslated dot-notation keys on web pages",
   "permissions": ["activeTab", "scripting"],
+  "host_permissions": ["<all_urls>"],
   "action": {
     "default_title": "Detect missing translations"
   },
